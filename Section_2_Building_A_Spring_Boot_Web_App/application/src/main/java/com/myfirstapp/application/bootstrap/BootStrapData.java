@@ -31,7 +31,7 @@ public class BootStrapData implements CommandLineRunner {
 
         Author eric = new Author("Eric", "Evans");
         Book ddd = new Book("Domain Driven Design", "11223344");
-        Publisher manning = new Publisher("Rodeo Drive","Los Angeles","California","1234546");
+        Publisher manning = new Publisher("Manning","Rodeo Drive","Los Angeles","California","1234546");
 
         // Add a book to the author and an author to the book
 
@@ -39,10 +39,15 @@ public class BootStrapData implements CommandLineRunner {
         eric.getBooks().add(ddd);
         ddd.getAuthors().add(eric);
 
+        ddd.setPublisher(manning);
+        manning.getBooks().add(ddd);
+
+
 
         authorRepository.save(eric);
-        bookRepository.save(ddd);
         publisherRepository.save(manning);
+        bookRepository.save(ddd);
+
 
 
 
@@ -53,13 +58,17 @@ public class BootStrapData implements CommandLineRunner {
 
         rod.getBooks().add(noEJB);
         noEJB.getAuthors().add(rod);
+        noEJB.setPublisher(manning);
+        manning.getBooks().add(noEJB);
 
         authorRepository.save(rod);
         bookRepository.save(noEJB);
+        publisherRepository.save(manning);
 
         System.out.println("Started in Bootstrap");
-        System.out.println("Number of Books "+ bookRepository.count());
-        System.out.println("Publisher Count: " + publisherRepository.count());
+        System.out.println("Number of Books: "+ bookRepository.count());
+        System.out.println("Number of Publishers: "+ publisherRepository.count());
+        System.out.println("Publisher Number of Books: " + manning.getBooks().size());
 
     }
 }
